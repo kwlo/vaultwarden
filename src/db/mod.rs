@@ -138,7 +138,7 @@ macro_rules! generate_connections {
                     DbConnType::$name => {
                         #[cfg($name)]
                         {
-                            paste::paste!{ [< $name _migrations >]::run_migrations(&url)?; }
+                            pastey::paste!{ [< $name _migrations >]::run_migrations(&url)?; }
                             let manager = ConnectionManager::new(&url);
                             let pool = Pool::builder()
                                 .max_size(CONFIG.database_max_conns())
@@ -275,7 +275,7 @@ macro_rules! db_run {
                 $($(
                 #[cfg($db)]
                 $crate::db::DbConnInner::$db($conn) => {
-                    paste::paste! {
+                    pastey::paste! {
                         #[allow(unused)] use $crate::db::[<__ $db _schema>]::{self as schema, *};
                         #[allow(unused)] use [<__ $db _model>]::*;
                     }
@@ -296,7 +296,7 @@ macro_rules! db_run {
                 $($(
                 #[cfg($db)]
                 $crate::db::DbConnInner::$db($conn) => {
-                    paste::paste! {
+                    pastey::paste! {
                         #[allow(unused)] use $crate::db::[<__ $db _schema>]::{self as schema, *};
                         // @ RAW: #[allow(unused)] use [<__ $db _model>]::*;
                     }
@@ -353,7 +353,7 @@ macro_rules! db_object {
     };
 
     ( @db $db:ident | $( #[$attr:meta] )* | $name:ident | $( $( #[$field_attr:meta] )* $vis:vis $field:ident : $typ:ty),+) => {
-        paste::paste! {
+        pastey::paste! {
             #[allow(unused)] use super::*;
             #[allow(unused)] use diesel::prelude::*;
             #[allow(unused)] use $crate::db::[<__ $db _schema>]::*;
